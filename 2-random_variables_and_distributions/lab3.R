@@ -1,0 +1,156 @@
+## ------------------------------------------------------------------------
+dbinom(0:7,7,0.2)
+dbinom(0:7,7,0.6)
+
+dbinom(0:4,7,0.2)
+dbinom(0:4,7,0.6)
+
+pbinom(0:7,7,0.2)
+pbinom(0:7,7,0.6)
+
+sum(dbinom(0:4,7,0.2))
+sum(dbinom(0:4,7,0.6))
+
+pbinom(0:7,7,0.2)[5]
+pbinom(0:7,7,0.6)[5]
+
+## ------------------------------------------------------------------------
+barplot(dbinom(0:7,7,0.2),main="Binomial(n=7,p=0.1)",ylim=c(0,0.45),names=0:7,col=grey(0.9))
+barplot(dbinom(0:7,7,0.6),main="Binomial(n=7,p=0.6)",ylim=c(0,0.45),names=0:7,col=grey(0.3))
+
+## ------------------------------------------------------------------------
+par(mfrow=c(1,2))
+barplot(dbinom(0:7,7,0.2),main="Binomial(n=7,p=0.1)",ylim=c(0,0.45),names=0:7,col=grey(0.9))
+barplot(dbinom(0:7,7,0.6),main="Binomial(n=7,p=0.6)",ylim=c(0,0.45),names=0:7,col=grey(0.3))
+
+par(mfrow=c(2,1))
+barplot(dbinom(0:7,7,0.2),main="Binomial(n=7,p=0.1)",ylim=c(0,0.45),names=0:7,col=grey(0.9))
+barplot(dbinom(0:7,7,0.6),main="Binomial(n=7,p=0.6)",ylim=c(0,0.45),names=0:7,col=grey(0.3))
+
+## ------------------------------------------------------------------------
+z <- rbind(dbinom(0:7,7,0.2),dbinom(0:7,7,0.6))
+par(mfrow=c(1,1))
+barplot(z,beside=T,names=0:7,col=grey(c(0.9,0.3)),space=c(0,0.5),ylim=c(0,0.45))
+legend(0,0.45,c("Binomial(n=7,p=0.1)","Binomial(n=7,p=0.6)"),
+       pch=22,pt.bg=grey(c(0.9,0.3)),pt.cex=2,bty="n")
+
+## ------------------------------------------------------------------------
+a <- 1:10
+b <- 2:11
+d <- rep(NA,10)
+d
+
+# multiply two vectors
+for(i in 1:10){
+  d[i]<-a[i]*b[i]
+}
+d
+
+# compute the inner product
+s<-0
+for(i in 1:10){
+  s<-s+d[i]
+}
+s
+
+## ------------------------------------------------------------------------
+# multiply two vectors
+d <- a*b
+d
+
+# compute the inner product
+s <- sum(a*b)
+s
+
+## ------------------------------------------------------------------------
+for(j in c(3,1,4,1,5,9,2,7)) print(j)
+for(j in LETTERS[1:10]) print(j)
+
+## ------------------------------------------------------------------------
+?sample
+sample(1:10)
+sample(1:10,replace=TRUE)
+sample(1:10,repl=T)
+
+f1 <- c("A","a")
+f2 <- sample(f1,2,repl=T)
+f2
+
+?ifelse
+ifelse(3+5<9,"Yes","No")
+ifelse(3+8<9,"Yes","No")
+
+f2
+ifelse("A"%in%f2,1,0)
+
+## ------------------------------------------------------------------------
+nit <- 10000
+npurple <- rep(0,nit)
+f1 <- c("A","a")
+for(k in 1:nit){
+  f2 <- sample(f1,2,repl=T)
+  purple <- rep(0,10)
+  for(j in 1:10){
+    f3 <- sample(f2,2,repl=T)
+    purple[j] <- ifelse("A"%in%f3,1,0)
+  }
+  npurple[k] <- sum(purple)
+}
+
+table(npurple)
+table(factor(npurple,levels=0:10))
+
+par(mfrow=c(1,1))
+barplot(table(factor(npurple,levels=0:10)))
+
+## ------------------------------------------------------------------------
+nit <- 10000
+npurple2 <- rep(0,nit)
+f1 <- c("A","a")
+for(k in 1:nit){
+  purple <- rep(0,10)
+  for(j in 1:10){
+    f2 <- sample(f1,2,repl=T)
+    f3 <- sample(f2,2,repl=T)
+    purple[j] <- ifelse("A"%in%f3,1,0)
+  }
+  npurple2[k] <- sum(purple)
+}
+
+table(npurple2)
+table(factor(npurple2,levels=0:10))
+barplot(table(factor(npurple2,levels=0:10)))
+
+par(mfrow=c(1,2))
+barplot(table(factor(npurple,levels=0:10)),ylim=c(0,3000),main="Non - Binomial")
+barplot(table(factor(npurple2,levels=0:10)),ylim=c(0,3000),main="Binomial")
+
+## ------------------------------------------------------------------------
+dpois(0:10,5)
+sum(dpois(0:10,5))
+ppois(0:10,5)
+ppois(10,5)
+
+dpois(0:15,5)
+ppois(0:15,5)
+1-ppois(0:15,5)
+ppois(0:15,5,lower=FALSE)
+
+## ------------------------------------------------------------------------
+n=50000
+p=1/100000
+lambda=n*p
+
+dbinom(0:5,n,p)
+barplot(dbinom(0:5,n,p),main="Binomial",ylim=c(0,0.65),names=0:5,col=grey(0.9))
+
+dpois(0:5,lambda)
+barplot(dpois(0:5,lambda),main="Poisson",ylim=c(0,0.65),names=0:5,col=grey(0.3))
+
+z <- rbind(dbinom(0:5,n,p),dpois(0:5,lambda))
+par(mfrow=c(1,1))
+barplot(z,beside=T,names=0:5,col=grey(c(0.9,0.3)),space=c(0,0.5),ylim=c(0,0.65))
+legend(4,0.65,c("Binomial","Poisson"),pch=22,pt.bg=grey(c(0.9,0.3)),pt.cex=2,bty="n")
+
+dbinom(0:5,n,p)-dpois(0:5,lambda)
+
